@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.unistrong.springbootshirodemo.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.unistrong.springbootshirodemo.bean.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rolename, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_t
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_t
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.unistrong.springbootshirodemo.bean.Role" >
+    insert into role_t (id, rolename, type
+      )
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.unistrong.springbootshirodemo.bean.Role" >
+    insert into role_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rolename != null" >
+        rolename,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unistrong.springbootshirodemo.bean.Role" >
+    update role_t
+    <set >
+      <if test="rolename != null" >
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unistrong.springbootshirodemo.bean.Role" >
+    update role_t
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="slectByPrimaryKeyList" parameterType="java.util.List" resultType="java.lang.String">
+    select rolename from role_t where id in
+           <foreach collection="roleIds" index="index" item="item" open="(" separator="," close=")">
+                   #{item}
+            </foreach>
+  </select>
+</mapper>
